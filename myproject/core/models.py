@@ -18,7 +18,7 @@ class Teacher(models.Model):
 
 class Class(models.Model):
     name = models.CharField(max_length=50)
-    year = models.DateField()
+    year = models.PositiveIntegerField()
 
     def __str__(self):
         return f"{self.name}, {self.year}"
@@ -29,10 +29,10 @@ class Student(models.Model):
     student_class = models.ForeignKey(Class, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name}, {self.year}"
+        return f"{self.first_name}, {self.last_name}"
 
 class Schedule(models.Model):
-    DAY_CHOICE = [
+    DAY_CHOICES = [
         ("Mon", "Monday"),
         ("Tue", "Tuesday"),
         ("Wed", "Wednesday"),
@@ -40,7 +40,7 @@ class Schedule(models.Model):
         ("Fri", "Friday"),
     ]
 
-    day_of_week = models.CharField(max_length=3, choices=DAY_CHOICE)
+    day_of_week = models.CharField(max_length=3, choices=DAY_CHOICES)
     start_time = models.TimeField()
     end_time = models.TimeField()
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
@@ -48,7 +48,7 @@ class Schedule(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.day_of_week}  {self.start_time} - {self.end_time} -> {self.subject}"
+        return f"{self.day_of_week} {self.start_time} - {self.end_time} -> {self.subject}"
 
 class Grade(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)

@@ -11,8 +11,10 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         name = kwargs["name"]
         description = kwargs["description"]
+
         if Subject.objects.filter(name=name).exists():
             self.stdout.write(self.style.ERROR("Subject already exists."))
         else:
-            Subject.objects.create(name=name, description=description)
+            subject = Subject.objects.create(name=name, description=description)
+            subject.save()
             self.stdout.write(self.style.SUCCESS(f"Subject '{name}' added successfully."))
